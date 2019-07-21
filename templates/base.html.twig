@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>symbnb-{% block title %}{% endblock %}</title>
+       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+		<link rel="stylesheet" href="{{asset('/css/app.css')}}">
+        {% block stylesheets %}{% endblock %}
+    </head>
+    <body>
+
+    	{% include 'partials/header.html.twig'%}
+    	
+        {% block body %}
+			<h2>hello world</h2>
+        {% endblock %}
+        {% include 'partials/footer.html.twig'%}
+
+       <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+       <script src="https://cdnjs.cloudflare.com/ajax/libs/javascript.util/0.12.12/javascript.util.min.js" crossorigin="anonymous"></script>
+
+        <script src="{{asset('js/poper.min.js')}}"></script>
+        <script src="{{asset('js/jquery.min.js')}}"></script>
+
+        {% block javascripts %}
+		
+        {% endblock %}
+    </body>
+</html>

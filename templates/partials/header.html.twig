@@ -1,0 +1,52 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="#">Symbmb</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarColor03">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="{{path('homepage')}}">Acceuil <span class="sr-only">(current)</span></a>
+      </li>
+       <li class="nav-item ">
+        <a class="nav-link" href="{{path('ads_index')}}">Annonces <span class="sr-only">(current)</span></a>
+      </li>
+    </ul>
+
+
+     <div class="btn-group show-on-hover">
+      {% if app.user %}
+          <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+            <img src="{{app.user.picture}}" alt="avatar de {{app.user.Firstname}} {{app.user.lastname}}" class="avatar avatar-min">{{app.user.Firstname}}{{app.user.Lastname}}
+          </button>
+          <ul class="dropdown-menu" role="menu">
+            <li> <a href="{{path('account_index')}}" >Mon compte</a></li>
+            <li><a href="{{path('account_profile')}}" >Modifier mon profil</a></li>
+           
+            <li class="divider"></li>
+             <li><a href="{{path('account_logout')}}"  >Deconnection</a></li>
+              {% else %}
+
+            <li style="list-style: none;margin-right:10px;"><a href="{{ path('account_register')}}"  >Inscritpion</a></li>
+              <li style="list-style: none;"><a href="{{ path('account_login')}}"  >Connection</a></li>
+              {% endif %}
+
+
+          </ul>
+        </div>
+   
+    
+  </div>
+</nav>
+{% for label,messages in app.flashes %}
+<div class="container">
+	
+	<div class="alert alert-{{label}}">
+		{% for message in messages%}
+			<p>{{message|raw}}</p>
+		{% endfor %}
+	</div>
+</div>
+
+{% endfor %}

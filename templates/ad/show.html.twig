@@ -1,0 +1,87 @@
+{% extends 'base.html.twig'%}
+{% block title %}
+{{ad.title}}
+{% endblock %}
+{% block body %}
+<div class="ad-title" style="background-image:url({{ad.coverImage}});repeat:no-repeat;">
+    <div class="container">
+        <h1> {{ ad.title }}</h1>
+        <p>{{ad.Introduction}}</p>
+        <p class="h2">
+            <strong>{{ad.rooms}} chambres</strong> pour <strong>{{ad.price}}&euro;</strong>par nuit
+        </p>
+        <a href="{{path('booking_create',{"slug":ad.slug})}}" class="btn btn-primary">Réserver!</a>
+        {% if app.user and app.user==ad.author %}
+        <a href="{{path('ads_edit',{'slug':ad.slug})}}" class="btn btn-secondary">Modifier l'annonce</a>
+        <a href="{{path('ads_delete',{'slug':ad.slug})}}" class="btn btn-danger" onclick="return confirm (`Etes vous sur de supprimer l'annonce: {{ad.title}}?`)">Supprimer l'annonce</a>
+        {% endif %}
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col md-8 mb-3">
+            {{ad.content|raw}}
+
+            <div class="w3-content" style="max-width:800px;position:relative">
+            	{% for image in ad.images %}
+
+<img class="mySlides"  src="{{ image.url}}" >
+
+{% endfor %}
+
+<a class="w3-btn-floating" style="position:absolute;top:45%;left:0;font-size:30px;color:white;" onclick="plusDivs(-1)" >❮</a>
+<a class="w3-btn-floating" style="position:absolute;top:45%;right:0;font-size:30px;color:white;" onclick="plusDivs(1)" >❯</a>
+
+</div>
+          
+        <div class="col">
+            {% set a=ad.Author %}
+            <div class="row">
+                <div class="col-4">
+                    <a href="{{path('user_show',{'slug':a.slug})}}">
+                        <img src="{{a.picture}}" alt="avatar de {{a.Firstname}} {{a.Lastname}}" class="avatar avatar-medium"></a>
+                </div>
+                <div class="col-8">
+                    <a href="{{path('user_show',{'slug':a.slug})}}">
+                        <h3>{{a.Firstname}} {{a.Lastname}}</h3>
+                    </a>
+                    <span class="badge badge-primary">{{a.ads|length}} annonces</span>
+                </div>
+            </div>
+            {{a.Description|raw}}
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block javascripts %}
+<script>
+var slideIndex = 1;
+showDivs(slideIndex);
+
+function plusDivs(n) {
+  showDivs(slideIndex += n);
+}
+
+function currentDiv(n) {
+  showDivs(slideIndex = n);
+}
+
+function showDivs(n) {
+  var i;
+  var x = document.getElementsByClassName("mySlides");
+  var dots = document.getElementsByClassName("demo");
+  if (n > x.length) {slideIndex = 1}    
+  if (n < 1) {slideIndex = x.length} ;
+  for (i = 0; i < x.length; i++) {
+     x[i].style.display = "none";  
+  }
+  for (i = 0; i < dots.length; i++) {
+     dots[i].className = dots[i].className.replace(" w3-white", "");
+  }
+  x[slideIndex-1].style.display = "block";  
+  dots[slideIndex-1].className += " w3-white";
+}
+</script>
+
+
+{% endblock %}
