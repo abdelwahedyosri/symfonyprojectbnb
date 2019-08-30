@@ -2,11 +2,13 @@
 
 namespace App\Entity;
 
+use Symfony\Component\Validator\Constraints as Assert;
+
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\BookingRepository")
- @ORM\HaslifecycleCallBacks()
+ *@ORM\HaslifecycleCallBacks()
  */
 class Booking
 {
@@ -31,11 +33,13 @@ class Booking
 
     /**
      * @ORM\Column(type="datetime")
+     * @Assert\Date(message="la date d'arrivée doit etre au bon format")
      */
     private $startdate;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Assert\Date(message="la date de départ doit etre au bon format")
      */
     private $enddate;
 
@@ -68,10 +72,7 @@ class Booking
                 $this->amount=$this->ad->getprice()*$this->getDuration();
         }
     }
-    public function isBookableDates(){
 
-        
-    }
 
     public function  getDuration(){
         $diff=$this->enddate->diff($this->startdate);
@@ -168,6 +169,25 @@ class Booking
     }
 
     
-
+public function isBookableDate(){
+    $notAvailableDates=$this->ad->getNotAvailableDays();
+    $bookingdays=$this->getDays();
+    $days=array_map(function($day){
+        return $day->format('Y-m-d');
+    },$bookingdays);
+}
+public function getDays(){
    
+   
+        $result=range(
+            $booking->getStartDate()->getTimestamp(),
+            $booking->getEndDate()->getTimestamp(),
+            24*60*60*1000
+        );
+        $days=array_map(function($dayTimestamp){
+
+            return new \DateTime(date('Y-m-d',$dayTimestamp));
+        });
+        return $days;
+}
 }
